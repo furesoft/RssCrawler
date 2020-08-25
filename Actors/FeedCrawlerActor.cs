@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Akka.Actor;
+using CodeHollow.FeedReader;
 using RssCrawler.Messages;
 
 namespace RssCrawler.Actors
@@ -9,10 +11,21 @@ namespace RssCrawler.Actors
 		public FeedCrawlerActor()
 		{
 			Receive<CrawlFeedMessage>(_ =>
-			{
-				Console.WriteLine("recieved : " + _.URI);
-				return true;
-			});
+		   {
+			   var feed = FeedReader.ReadAsync(_.URI).Result;
+
+			   var actorRef = Context.System.ActorOf<TableOfContentsActor>();
+			   actorRef.Tell(new TableOfContentsItemMessage { ID = _.ID, Title = feed.Title });
+
+			   var epubRef = Context.System.ActorOf<EpubActor>();
+
+			   //send DownloadImagesMessage to WebAssetLoaderActor
+			   //send AddChapterMessage to EpubActor
+			   Context.Sender.Tell(true);
+
+			   Console.WriteLine("Feed quiered");
+			   return true;
+		   });
 		}
 	}
 }

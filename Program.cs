@@ -30,36 +30,29 @@ namespace RssCrawler
 				"https://www.welt.de/feeds/topnews.rss",
 			};
 
-			var myActorSystem = ActorSystem.Create("MyActorSystem");
+			var actors = ActorSystem.Create("feedCrawlerSystem");
 
 			// create top-level actors within the actor system
-			var crawlProps = Props.Create<FeedCrawlerActor>();
-			var crawlActor = myActorSystem.ActorOf(crawlProps);
-
-			var feedinfo = new List<object>();
-			var ids = new Dictionary<string, string>();
+			var crawlActor = actors.ActorOf<FeedCrawlerActor>();
 
 			foreach (var uri in uris)
 			{
-				crawlActor.Tell(new CrawlFeedMessage { URI = uri });
+				var result = crawlActor.Ask(new CrawlFeedMessage { URI = uri, ID = Guid.NewGuid() }).Result;
+				Console.WriteLine(result);
 			}
 
-			myActorSystem.Terminate();
-			myActorSystem.WhenTerminated.Wait();
+			var tocActorRef = actors.ActorOf<TableOfContentsActor>();
 
-			Console.ReadLine();
+			while (Console.ReadLine() != "c")
+			{
+				tocActorRef.Tell(new RenderTableOfContentsMessage());
+				actors.ActorOf<EpubActor>().Tell(new SaveEpubMessage());
+				actors.Terminate();
+			}
+
+			actors.WhenTerminated.Wait();
+
 			/*
-			foreach (var uri in uris)
-			{
-				var feed = FeedReader.ReadAsync(uri).Result;
-				var id = Guid.NewGuid().ToString();
-
-				feedinfo.Add(new { title = feed.Title, id });
-				ids.Add(feed.Title, id);
-			}
-
-			var noc = Template.Parse(Resources.TOC).Render(new { info = feedinfo });
-			writer.AddFile("toc.ncx", noc, EpubSharp.Format.EpubContentType.Xml);
 
 			foreach (var uri in uris)
 			{
@@ -117,10 +110,7 @@ namespace RssCrawler
 				writer.AddChapter(feed.Title, result, ids[feed.Title]);
 			}
 
-			writer.SetCover(Resources.cover, ImageFormat.Jpeg);
-
-			writer.SetTitle($"epaper_{DateTime.Now.Date}");
-			writer.Write($"epaper_{DateTime.Now.Date.ToShortDateString()}.epub");
+			//when to call SaveEpubMessage?
 
 			*/
 		}
