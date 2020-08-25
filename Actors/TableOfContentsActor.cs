@@ -32,7 +32,7 @@ namespace RssCrawler.Actors
 				Console.WriteLine("TOC rendered");
 
 				// send rendered toc to EpubActor with AddFileMessage
-				var epubRef = Context.System.ActorOf<EpubActor>();
+				var epubRef = Context.ActorOf<EpubActor>();
 				epubRef.Tell(new AddFileMessage { Filename = "toc.ncx", Content = noc, Type = EpubContentType.Xml });
 			});
 		}

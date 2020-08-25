@@ -14,10 +14,10 @@ namespace RssCrawler.Actors
 		   {
 			   var feed = FeedReader.ReadAsync(_.URI).Result;
 
-			   var actorRef = Context.System.ActorOf<TableOfContentsActor>();
+			   var actorRef = Context.ActorOf<TableOfContentsActor>();
 			   actorRef.Tell(new TableOfContentsItemMessage { ID = _.ID, Title = feed.Title });
 
-			   var epubRef = Context.System.ActorOf<EpubActor>();
+			   var epubRef = Context.ActorOf<EpubActor>();
 
 			   //send DownloadImagesMessage to WebAssetLoaderActor
 			   //send AddChapterMessage to EpubActor
