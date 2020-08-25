@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "tqdKmCp0BLAOoHfZK42oGirbOyMHAOxZHyqIZ1ABCG7rcT5SSsXmyHSKthoJdBQYChhHU3QaHf0xM1iqdoxViA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\filmee24\\source\\repos\\RssCrawler\\RssCrawler.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\filmee24\\.nuget\\packages\\codehollow.feedreader\\1.2.1\\codehollow.feedreader.1.2.1.nupkg.sha512",
+    "C:\\Users\\filmee24\\.nuget\\packages\\htmlagilitypack\\1.11.24\\htmlagilitypack.1.11.24.nupkg.sha512",
+    "C:\\Users\\filmee24\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
+    "C:\\Users\\filmee24\\.nuget\\packages\\mustache-sharp\\1.0.0\\mustache-sharp.1.0.0.nupkg.sha512",
+    "C:\\Users\\filmee24\\.nuget\\packages\\scriban\\2.1.3\\scriban.2.1.3.nupkg.sha512",
+    "C:\\Users\\filmee24\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.1\\system.threading.tasks.extensions.4.5.1.nupkg.sha512"
+  ],
+  "logs": []
+}

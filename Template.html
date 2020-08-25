@@ -1,0 +1,12 @@
+﻿<a name="{{feed.title}}" />
+<h2>{{feed.title}}</h2>
+<img src="{{logo}}" />
+
+{{ for item in feed.items }}
+<p>
+	<h2><a href="{{ item.link }}">{{ item.title }}</a></h2>
+	<p>
+	{{ item.content }}
+	</p>
+</p>
+{{ end }}
