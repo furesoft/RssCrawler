@@ -6,10 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Akka" Version="1.4.10" />
     <PackageReference Include="CodeHollow.FeedReader" Version="1.2.1" />
     <PackageReference Include="HtmlAgilityPack" Version="1.11.24" />
     <PackageReference Include="mustache-sharp" Version="1.0.0" />
-    <PackageReference Include="Scriban" Version="2.1.3" />
+    <PackageReference Include="Scriban" Version="2.1.4" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,6 +1,9 @@
-﻿using CodeHollow.FeedReader;
+﻿using Akka.Actor;
+using CodeHollow.FeedReader;
 using EpubSharp;
 using HtmlAgilityPack;
+using RssCrawler.Actors;
+using RssCrawler.Messages;
 using RssCrawler.Properties;
 using Scriban;
 using Scriban.Runtime;
@@ -19,17 +22,33 @@ namespace RssCrawler
 			var writer = new EpubWriter();
 
 			writer.AddAuthor("Furesoft");
-			var uris = new[] { 
+			var uris = new[] {
 				"https://rss.golem.de/rss.php?tp=dev&feed=RSS2.0",
 				"https://www.heise.de/rss/heiseplus-atom.xml",
 				"https://www.spiegel.de/schlagzeilen/tops/index.rss",
 				"https://www.spiegel.de/schlagzeilen/index.rss",
 				"https://www.welt.de/feeds/topnews.rss",
 			};
-			
+
+			var myActorSystem = ActorSystem.Create("MyActorSystem");
+
+			// create top-level actors within the actor system
+			var crawlProps = Props.Create<FeedCrawlerActor>();
+			var crawlActor = myActorSystem.ActorOf(crawlProps);
+
 			var feedinfo = new List<object>();
 			var ids = new Dictionary<string, string>();
 
+			foreach (var uri in uris)
+			{
+				crawlActor.Tell(new CrawlFeedMessage { URI = uri });
+			}
+
+			myActorSystem.Terminate();
+			myActorSystem.WhenTerminated.Wait();
+
+			Console.ReadLine();
+			/*
 			foreach (var uri in uris)
 			{
 				var feed = FeedReader.ReadAsync(uri).Result;
@@ -38,7 +57,7 @@ namespace RssCrawler
 				feedinfo.Add(new { title = feed.Title, id });
 				ids.Add(feed.Title, id);
 			}
-			
+
 			var noc = Template.Parse(Resources.TOC).Render(new { info = feedinfo });
 			writer.AddFile("toc.ncx", noc, EpubSharp.Format.EpubContentType.Xml);
 
@@ -102,6 +121,8 @@ namespace RssCrawler
 
 			writer.SetTitle($"epaper_{DateTime.Now.Date}");
 			writer.Write($"epaper_{DateTime.Now.Date.ToShortDateString()}.epub");
+
+			*/
 		}
 	}
 }
