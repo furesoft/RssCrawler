@@ -21,9 +21,9 @@ namespace RssCrawler.Actors
 
 			   //send DownloadImagesMessage to WebAssetLoaderActor
 			   //send AddChapterMessage to EpubActor
-			   Context.Sender.Tell(true);
+			   Context.Sender.Tell(new CrawlSuccededMessage());
 
-			   Console.WriteLine("Feed quiered");
+			   Console.WriteLine("Feed aquiered");
 			   return true;
 		   });
 		}

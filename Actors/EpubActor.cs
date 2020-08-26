@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using Akka.Actor;
 using EpubSharp;
-using EpubSharp.Format;
 using RssCrawler.Messages;
 using RssCrawler.Properties;
-using Scriban;
 
 namespace RssCrawler.Actors
 {
@@ -21,16 +18,26 @@ namespace RssCrawler.Actors
 
 			Receive<AddFileMessage>(_ =>
 			{
-				_writer.AddFile(_.Filename, _.Content, _.Type);
+				Handle(_);
 			});
 
 			Receive<SaveEpubMessage>(_ =>
 			{
-				_writer.SetCover(Resources.cover, ImageFormat.Jpeg);
-
-				_writer.SetTitle($"epaper_{DateTime.Now.Date}");
-				_writer.Write($"epaper_{DateTime.Now.Date.ToShortDateString()}.epub");
+				Handle(_);
 			});
+		}
+
+		private void Handle(AddFileMessage msg)
+		{
+			_writer.AddFile(msg.Filename, msg.Content, msg.Type);
+		}
+
+		private void Handle(SaveEpubMessage msg)
+		{
+			_writer.SetCover(Resources.cover, ImageFormat.Jpeg);
+
+			_writer.SetTitle($"epaper_{DateTime.Now.Date}");
+			_writer.Write($"epaper_{DateTime.Now.Date.ToShortDateString()}.epub");
 		}
 	}
 }

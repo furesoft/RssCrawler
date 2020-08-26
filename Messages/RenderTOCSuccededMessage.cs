@@ -2,7 +2,5 @@
 
 namespace RssCrawler.Messages
 {
-	public class RenderTableOfContentsMessage
-	{
-	}
+	public class RenderTOCSuccededMessage { }
 }

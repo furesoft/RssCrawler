@@ -1,4 +1,6 @@
 ﻿using Akka.Actor;
+using Akka.Configuration;
+using Akka.Routing;
 using CodeHollow.FeedReader;
 using EpubSharp;
 using HtmlAgilityPack;
@@ -32,21 +34,10 @@ namespace RssCrawler
 
 			var actors = ActorSystem.Create("feedCrawlerSystem");
 
-			// create top-level actors within the actor system
-			var crawlActor = actors.ActorOf<FeedCrawlerActor>();
-
-			foreach (var uri in uris)
-			{
-				var result = crawlActor.Ask(new CrawlFeedMessage { URI = uri, ID = Guid.NewGuid() }).Result;
-				Console.WriteLine(result);
-			}
-
-			var tocActorRef = actors.ActorOf<TableOfContentsActor>();
+			actors.ActorOf<FeedSupervisor>().Tell(new StartFeedCrawlingMessage { URIs = uris });
 
 			while (Console.ReadLine() != "c")
 			{
-				tocActorRef.Tell(new RenderTableOfContentsMessage());
-				actors.ActorOf<EpubActor>().Tell(new SaveEpubMessage());
 				actors.Terminate();
 			}
 

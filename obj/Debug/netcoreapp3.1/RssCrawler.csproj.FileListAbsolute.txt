@@ -32,3 +32,4 @@ C:\Users\filmee24\source\repos\RssCrawler\bin\Debug\netcoreapp3.1\runtimes\win\l
 C:\Users\filmee24\source\repos\RssCrawler\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\filmee24\source\repos\RssCrawler\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\System.Windows.Extensions.dll
 C:\Users\filmee24\source\repos\RssCrawler\obj\Debug\netcoreapp3.1\RssCrawler.csproj.CoreCompileInputs.cache
+C:\Users\filmee24\source\repos\RssCrawler\bin\Debug\netcoreapp3.1\RssCrawler.dll.config

@@ -21,19 +21,18 @@ namespace RssCrawler.Actors
 				_feedinfo.Add(new { title = _.Title, _.ID });
 				_ids.Add(_.Title, _.ID);
 
-				Console.WriteLine("Item added to TOC");
-
 				return true;
 			});
 
 			Receive<RenderTableOfContentsMessage>(_ =>
 			{
 				var noc = Template.Parse(Resources.TOC).Render(new { info = _feedinfo });
-				Console.WriteLine("TOC rendered");
 
 				// send rendered toc to EpubActor with AddFileMessage
 				var epubRef = Context.ActorOf<EpubActor>();
 				epubRef.Tell(new AddFileMessage { Filename = "toc.ncx", Content = noc, Type = EpubContentType.Xml });
+
+				Context.Sender.Tell(new RenderTOCSuccededMessage());
 			});
 		}
 	}
