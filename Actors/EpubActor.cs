@@ -8,13 +8,9 @@ namespace RssCrawler.Actors
 {
 	public class EpubActor : ReceiveActor
 	{
-		private EpubWriter _writer;
-
 		public EpubActor()
 		{
-			_writer = new EpubWriter();
-
-			_writer.AddAuthor("Furesoft");
+			Singleton<EpubWriter>.Instance.AddAuthor("Furesoft");
 
 			Receive<AddFileMessage>(_ =>
 			{
@@ -29,15 +25,18 @@ namespace RssCrawler.Actors
 
 		private void Handle(AddFileMessage msg)
 		{
-			_writer.AddFile(msg.Filename, msg.Content, msg.Type);
+			Console.WriteLine("Adding File: " + msg.Filename);
+
+			Singleton<EpubWriter>.Instance.AddFile(msg.Filename, msg.Content, msg.Type);
 		}
 
 		private void Handle(SaveEpubMessage msg)
 		{
-			_writer.SetCover(Resources.cover, ImageFormat.Jpeg);
+			Singleton<EpubWriter>.Instance.AddChapter("test", "hello world");
+			Singleton<EpubWriter>.Instance.SetCover(Resources.cover, ImageFormat.Jpeg);
 
-			_writer.SetTitle($"epaper_{DateTime.Now.Date}");
-			_writer.Write($"epaper_{DateTime.Now.Date.ToShortDateString()}.epub");
+			Singleton<EpubWriter>.Instance.SetTitle($"epaper_{DateTime.Now.Date}");
+			Singleton<EpubWriter>.Instance.Write($"epaper_{DateTime.Now.Date.ToShortDateString()}.epub");
 		}
 	}
 }

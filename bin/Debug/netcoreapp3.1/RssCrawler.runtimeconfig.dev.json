@@ -2,8 +2,7 @@
   "runtimeOptions": {
     "additionalProbingPaths": [
       "C:\\Users\\filmee24\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\filmee24\\.nuget\\packages",
-      "C:\\Microsoft\\Xamarin\\NuGet"
+      "C:\\Users\\filmee24\\.nuget\\packages"
     ]
   }
 }

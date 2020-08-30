@@ -1,1 +1,3 @@
 [ ] only download non downloaded articles
+[ ] make a message with all results when all is done, the epub actor will produce a epub based on this message
+
